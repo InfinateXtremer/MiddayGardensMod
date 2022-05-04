@@ -92,3 +92,7 @@ Content/Whiterooms/*
 /ReignitedTrilogyWorkspace_WwiseProject/Originals/*.wav
 /ReignitedTrilogyWorkspace_WwiseProject/Originals/*.akd
 /ReignitedTrilogyWorkspace_WwiseProject/.cache/
+
+
+Art/*
+*.fbx
