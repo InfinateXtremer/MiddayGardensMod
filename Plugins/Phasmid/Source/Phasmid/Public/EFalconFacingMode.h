@@ -1,28 +1,11 @@
-
-
 #pragma once
-
 #include "CoreMinimal.h"
-#include "Engine/UserDefinedEnum.h"
 #include "EFalconFacingMode.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class PHASMID_API UFalconFacingMode : public UUserDefinedEnum
-{
-	GENERATED_BODY()
-	
-	
-	
-	
+UENUM(BlueprintType)
+enum class EFalconFacingMode : uint8 {
+    None,
+    FaceTarget,
+    FaceMovement,
 };
 
-UENUM()
-enum class EFalconFacingMode
-{
-	None,
-	FaceTarget,
-	FaceMovement
-};

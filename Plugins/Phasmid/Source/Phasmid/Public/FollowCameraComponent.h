@@ -1,279 +1,317 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
+#include "UObject/NoExportTypes.h"
+#include "UObject/NoExportTypes.h"
 #include "Camera/CameraComponent.h"
-#include "Camera/PlayerCameraManager.h"
-#include "Math/UnrealMathUtility.h"
+#include "GameplayEffectTypes.h"
 #include "EReenactCamInfo.h"
+#include "FollowCameraSettings.h"
 #include "FollowCameraComponent.generated.h"
 
+class AActor;
+class UCurveFloat;
+class UFollowCameraComponent;
 
-
-/**
- * 
- */
-UCLASS()
-class PHASMID_API UFollowCameraComponent : public UCameraComponent
-{
-	GENERATED_BODY()
-
+UCLASS(Blueprintable, ClassGroup=Custom, meta=(BlueprintSpawnableComponent))
+class PHASMID_API UFollowCameraComponent : public UCameraComponent {
+    GENERATED_BODY()
 public:
-	UFUNCTION(BlueprintCallable, meta = (WorldContext = "WorldContextObject"))
-		static void ClearDebugCaminfo();
-	UFUNCTION(BlueprintCallable, meta = (WorldContext = "WorldContextObject"))
-		static void ClearYawOffsetClamp();
-	UFUNCTION(BlueprintCallable, meta = (WorldContext = "WorldContextObject"))
-		static bool CutDebugCamInfo(int PreviousCount, int Index);
-	UFUNCTION(BlueprintCallable, meta = (WorldContext = "WorldContextObject"))
-		static bool DrawDebugCamInfo(bool bDrawPositionTrace, bool bDrawPullInTrace, int PreviousCount, int Index);
-	UFUNCTION(BlueprintCallable, meta = (WorldContext = "WorldContextObject"))
-		static float GetCameraPitch();
-	UFUNCTION(BlueprintCallable, meta = (WorldContext = "WorldContextObject"))
-		static float GetCameraYaw();
-	UFUNCTION(BlueprintCallable, meta = (WorldContext = "WorldContextObject"))
-		static bool GetCenteringBlocked();
-	UFUNCTION(BlueprintCallable, meta = (WorldContext = "WorldContextObject"))
-		static float GetCurrentRadiusTarget();
-	UFUNCTION(BlueprintCallable, meta = (WorldContext = "WorldContextObject"))
-		static int GetDebugCamInfoNum();
-	UFUNCTION(BlueprintCallable, meta = (WorldContext = "WorldContextObject")) 
-		static FMinimalViewInfo GetDefaultCameraSettings(); //Needs to return struct probably MinimalViewInfo
-	UFUNCTION(BlueprintCallable, meta = (WorldContext = "WorldContextObject"))
-		static bool IsTransitioning();
-	UFUNCTION(BlueprintCallable, meta = (WorldContext = "WorldContextObject"))
-		static void PauseUpdate(bool bPause);
-	UFUNCTION(BlueprintCallable, meta = (WorldContext = "WorldContextObject"))
-		static bool PopCameraSettings(FViewTargetTransitionParams TransitionSettings, int SettingsId);
-	UFUNCTION(BlueprintCallable, meta = (WorldContext = "WorldContextObject"))
-		static int PushCameraSettings(FViewTargetTransitionParams TransitionSettings, FViewTargetTransitionParams SettingsTHISISNOTCORRECT);
-	UFUNCTION(BlueprintCallable, meta = (WorldContext = "WorldContextObject"))
-		static void Reset();
-	UFUNCTION(BlueprintCallable, meta = (WorldContext = "WorldContextObject"))
-		static void ResetBehind(float angle);
-	UFUNCTION(BlueprintCallable, meta = (WorldContext = "WorldContextObject"))
-		static int RetraceDebugInfo(int Index);
-	UFUNCTION(BlueprintCallable, meta = (WorldContext = "WorldContextObject"))
-		static void SetActiveCenterMode(bool NewActive);
-	UFUNCTION(BlueprintCallable, meta = (WorldContext = "WorldContextObject"))
-		static void SetCameraYaw(float Yaw);
-	UFUNCTION(BlueprintCallable, meta = (WorldContext = "WorldContextObject"))
-		static void SetDefaultPitchByActorZ(float ReferenceHeight, UObject* CameraActor); //don't know structs so they're left out InterpSettings, AngleClamp, MaxHeightDiff
-	UFUNCTION(BlueprintCallable, meta = (WorldContext = "WorldContextObject"))
-		static void UpdateRecenterVerticalAngle(float NewAngle);
-	UFUNCTION(BlueprintCallable, meta = (WorldContext = "WorldContextObject"))
-		static void UpdateTargetOffset(float NewOffset);
-	UFUNCTION(BlueprintCallable, meta = (WorldContext = "WorldContextObject"))
-		static void SetCameraPitchYaw(float Pitch, float Yaw);
-
-public:
-	//Don't know most of the structs in here, and the ones I did are probably wrong
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite) 
-	//	Struct m_useRotVInterpSettings; 
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float m_traceLength;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float m_defaultPitchByHeight;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool m_traceToCeiling;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool bStabilizeCameraOnSettingsChange;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TEnumAsByte<enum EReenactCamInfo> ReenactCamInfo;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool bRecordCamInfo;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		FVector m_tgtFPOffset;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float m_centerInterpMin;
-
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	//	Struct m_centerIdleParams;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float ActiveCamDeceleration;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float ActiveCamAcceleration;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float m_centerToHoldTime;
-
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	//	Struct m_centerActiveInterpParams;
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	//	Struct m_centerHoldInterpParams;
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	//	Struct m_centerInterpParams;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool bEnableIdleVerticalCenter;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float m_idleMoveTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float m_idleRampTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float m_idleTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool m_complexTrace;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool m_useBothSticksAsCamInput;
-
-	/** Disable Camera Rotation Input. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool m_ignoreRightStickInput;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool m_useRawCamPos;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		FVector m_collisionOffset;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float m_numFramesSmoothPan;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float m_numFramesSmooth;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float m_panAheadScalar;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float m_lookAheadScalar;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool bDebugDrawLocators;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		UObject* m_returnToSecondaryTargetCurve;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float m_secondaryTgtDistance;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float m_secondaryTgtMinDistance;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		FVector m_secondaryTgtOffset;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		UObject* SecondaryTarget;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		UObject* Target;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float m_ctrSecondTargetInterp;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float m_ctrYawClamp;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float m_ctrAngleV;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float m_ctrInterpV;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float m_maxCtrDelta;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float m_ctrDecelTimeMultiplier;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float m_ctrDecelAngleTurnModifier;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float m_ctrDecelAngle;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float m_ctrSpeed;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float m_ctrInterp;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float m_ceilingGmblOffset;
-
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	//	Struct m_colInterpOut;
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	//	Struct m_colInterpIn;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float m_snapBounceThreshold;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float m_snapInVelocity;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool bcolSnapIn;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float m_colClipMin;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool bPullInOnCamCollisionOnly;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float m_camRadius;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float m_colRadius;
-
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	//	Struct m_posZInterp;
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	//	Struct m_clampZHard;
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	//	Struct m_clampZSoft;
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	//	Struct m_fovInputScale;
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	//	Struct m_rotLimitV;
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	//	Struct m_rotInterpV;
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	//	Struct m_rotInterpH;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float m_rotSpeedV;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float m_rotSpeedH;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float m_yawClamp;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float m_radDefaultAtLimit;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float m_radDefault;
-
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	//	Struct m_gmblOffset;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		FVector m_tgtOffset;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		FName CameraYAxisName;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		FName CameraXAxisName;
-
-
+    DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnCameraSettingsTransition, UFollowCameraComponent*, Camera);
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FName CameraXAxisName;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FName CameraYAxisName;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FVector m_tgtOffset;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FVector m_gmblOffset;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_radDefault;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_radDefaultAtLimit;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_yawClamp;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_rotSpeedH;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_rotSpeedV;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FVector m_rotInterpH;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FVector m_rotInterpV;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FVector m_rotLimitV;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FVector m_fovInputScale;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FVector2D m_clampZSoft;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FVector2D m_clampZHard;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FVector m_posZInterp;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_colRadius;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_camRadius;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool bPullInOnCamCollisionOnly;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_colClipMin;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool bcolSnapIn;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_snapInVelocity;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_snapBounceThreshold;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FVector m_colInterpIn;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FVector m_colInterpOut;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_ceilingGmblOffset;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_ctrInterp;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_ctrSpeed;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_ctrDecelAngle;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_ctrDecelAngleTurnModifier;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_ctrDecelTimeMultiplier;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_maxCtrDelta;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_ctrInterpV;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_ctrAngleV;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_ctrYawClamp;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_ctrSecondTargetInterp;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    AActor* Target;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    AActor* SecondaryTarget;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FVector m_secondaryTgtOffset;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_secondaryTgtMinDistance;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_secondaryTgtDistance;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    UCurveFloat* m_returnToSecondaryTargetCurve;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 bDebugDrawLocators: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_lookAheadScalar;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_panAheadScalar;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_numFramesSmooth;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_numFramesSmoothPan;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FVector m_collisionOffset;
+    
+    UPROPERTY(AdvancedDisplay, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool m_useRawCamPos;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool m_ignoreRightStickInput;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool m_useBothSticksAsCamInput;
+    
+    UPROPERTY(AdvancedDisplay, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool m_complexTrace;
+    
+    UPROPERTY(AdvancedDisplay, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_idleTime;
+    
+    UPROPERTY(AdvancedDisplay, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_idleRampTime;
+    
+    UPROPERTY(AdvancedDisplay, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_idleMoveTime;
+    
+    UPROPERTY(AdvancedDisplay, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 bEnableIdleVerticalCenter: 1;
+    
+    UPROPERTY(AdvancedDisplay, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FVector m_centerInterpParams;
+    
+    UPROPERTY(AdvancedDisplay, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FVector m_centerHoldInterpParams;
+    
+    UPROPERTY(AdvancedDisplay, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FVector m_centerActiveInterpParams;
+    
+    UPROPERTY(AdvancedDisplay, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_centerToHoldTime;
+    
+    UPROPERTY(AdvancedDisplay, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float ActiveCamAcceleration;
+    
+    UPROPERTY(AdvancedDisplay, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float ActiveCamDeceleration;
+    
+    UPROPERTY(AdvancedDisplay, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FVector m_centerIdleParams;
+    
+    UPROPERTY(AdvancedDisplay, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_centerInterpMin;
+    
+    UPROPERTY(BlueprintAssignable, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FOnCameraSettingsTransition OnTransitionDone;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FVector m_tgtFPOffset;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool bRecordCamInfo;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    EReenactCamInfo ReenactCamInfo;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool bStabilizeCameraOnSettingsChange;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool m_traceToCeiling;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_defaultPitchByHeight;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float m_traceLength;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FVector m_useRotVInterpSettings;
+    
+    UFollowCameraComponent();
+    UFUNCTION(BlueprintCallable)
+    void UpdateTargetOffset(FVector NewOffset);
+    
+    UFUNCTION(BlueprintCallable)
+    void UpdateRecenterVerticalAngle(float NewAngle);
+    
+    UFUNCTION(BlueprintCallable)
+    static void SetDefaultPitchByActorZ(AActor* CameraActor, float ReferenceHeight, FVector2D MaxHeightDiff, FVector2D AngleClamp, FVector InterpSettings);
+    
+    UFUNCTION(BlueprintCallable)
+    void SetCameraYaw(float Yaw);
+    
+    UFUNCTION(BlueprintCallable)
+    void SetCameraPitchYaw(float Pitch, float Yaw);
+    
+    UFUNCTION(BlueprintCallable)
+    void SetActiveCenterMode(bool NewActive);
+    
+    UFUNCTION(BlueprintCallable)
+    void RetraceDebugInfo(int32 Index);
+    
+    UFUNCTION(BlueprintCallable)
+    void ResetBehind(float angle);
+    
+    UFUNCTION(BlueprintCallable)
+    void Reset();
+    
+    UFUNCTION(BlueprintCallable)
+    int32 PushCameraSettings(const FFollowCameraSettings& Settings, FVector TransitionSettings);
+    
+    UFUNCTION(BlueprintCallable)
+    bool PopCameraSettings(int32 SettingsId, FVector TransitionSettings);
+    
+    UFUNCTION(BlueprintCallable)
+    void PauseUpdate(bool bPause);
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool IsTransitioning();
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    FFollowCameraSettings GetDefaultCameraSettings();
+    
+    UFUNCTION(BlueprintCallable)
+    int32 GetDebugCamInfoNum();
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    float GetCurrentRadiusTarget() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool GetCenteringBlocked() const;
+    
+    UFUNCTION(BlueprintCallable)
+    float GetCameraYaw();
+    
+    UFUNCTION(BlueprintCallable)
+    float GetCameraPitch();
+    
+    UFUNCTION(BlueprintCallable)
+    bool DrawDebugCamInfo(int32 Index, int32 PreviousCount, bool bDrawPullInTrace, bool bDrawPositionTrace);
+    
+    UFUNCTION(BlueprintCallable)
+    bool CutDebugCamInfo(int32 Index, int32 PreviousCount);
+    
+    UFUNCTION(BlueprintCallable)
+    void ClearYawOffsetClamp();
+    
+    UFUNCTION(BlueprintCallable)
+    void ClearDebugCaminfo();
+    
+    UFUNCTION(BlueprintCallable)
+    static void ClearClampZByActorHeight(AActor* CameraActor);
+    
+    UFUNCTION(BlueprintCallable)
+    void CenterCameraFromSpec(UPARAM(Ref) FGameplayEffectSpecHandle& SpecHandle);
+    
 };
+

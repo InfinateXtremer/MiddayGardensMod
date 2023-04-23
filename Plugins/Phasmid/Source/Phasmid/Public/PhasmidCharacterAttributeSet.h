@@ -1,21 +1,17 @@
-
-
 #pragma once
-
 #include "CoreMinimal.h"
-#include "AbilitySystemTestAttributeSet.h"
+#include "PhasmidAttributeSet.h"
 #include "PhasmidCharacterAttributeSet.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class PHASMID_API UPhasmidCharacterAttributeSet : public UAbilitySystemTestAttributeSet
-{
-	GENERATED_BODY()
-	
+UCLASS(Blueprintable)
+class PHASMID_API UPhasmidCharacterAttributeSet : public UPhasmidAttributeSet {
+    GENERATED_BODY()
 public:
-	/** This measures how much damage can be absorbed before dying. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attributes")
-		FGameplayAttributeData JumpMaxHoldTime;
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated, meta=(AllowPrivateAccess=true))
+    float JumpMaxHoldTime;
+    
+    UPhasmidCharacterAttributeSet();
+    virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+    
 };
+

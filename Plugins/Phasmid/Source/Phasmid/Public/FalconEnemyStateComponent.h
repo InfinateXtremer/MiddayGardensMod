@@ -1,75 +1,73 @@
-
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "Engine/TargetPoint.h"
 #include "FalconEverythingState.h"
+#include "FalconProjectileSpawnedDelegate.h"
+#include "FalconStateSpawnedActorDelegate.h"
+#include "PhasmidInventorySpawnerInterface.h"
+#include "StateChangeSignatureDelegate.h"
+#include "StateExitSignatureDelegate.h"
 #include "FalconEnemyStateComponent.generated.h"
 
+class AActor;
+class ATargetPoint;
+class UFalconEnemyStateComponent;
 
-UCLASS(Blueprintable, BlueprintType, ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
-class PHASMID_API UFalconEnemyStateComponent : public UActorComponent
+UCLASS(Blueprintable, ClassGroup=Custom, meta=(BlueprintSpawnableComponent))
+class PHASMID_API UFalconEnemyStateComponent : public UActorComponent //, public IPhasmidInventorySpawnerInterface 
 {
-	GENERATED_BODY()
-
-public:	
-	// Sets default values for this component's properties
-	UFalconEnemyStateComponent();
-
-	UFUNCTION(BlueprintCallable)
-	static bool AllLootCollected();	
-	
-	UFUNCTION(BlueprintCallable)
-	static void BP_AddActorToWatchList(AActor* Actor, FName NextStateName);	
-	
-	UFUNCTION(BlueprintCallable)
-	static void BP_AddActorToWatchListByIndex(AActor* Actor, uint8 Index);	
-	
-	UFUNCTION(BlueprintCallable)
-	static void BP_OnEnterState();	
-	
-	UFUNCTION(BlueprintCallable)
-	static void BP_OnExitState(UObject* NextState);	
-	
-	UFUNCTION(BlueprintCallable)
-	static void BP_SetTarget(UObject* Actor);	
-	
-	UFUNCTION(BlueprintCallable)
-	static void BP_SetWaypoints(ATargetPoint* Points);
-	
-	UFUNCTION(BlueprintCallable)
-	static void BP_UpdateWanderParams(float TurnRate, float OuterRadius, float Delay);
-
-	UFUNCTION(BlueprintCallable)
-	static FName GetStateName();	
-	
-	UFUNCTION(BlueprintCallable)
-	static bool WillSpawnCollectibleOfType(UClass*& Class);
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TArray<FFalconEverythingState> State;
-	                      
-	/*
-	MulticastDelegateProperty Phasmid.FalconEnemyStateComponent.OnProjectileSpawned
-	MulticastDelegateProperty Phasmid.FalconEnemyStateComponent.OnExitStateDelegate
-	MulticastDelegateProperty Phasmid.FalconEnemyStateComponent.OnEnterStateDelegate
-	MulticastDelegateProperty Phasmid.FalconEnemyStateComponent.OnCollectibleSpawned
-	MulticastDelegateProperty Phasmid.FalconEnemyStateComponent.OnActorSpawned
-	
-	
-	StructProperty State  //Struct uses FalconEverythingTrigger
-	*/
-
-protected:
-	// Called when the game starts
-	virtual void BeginPlay() override;
-
-public:	
-	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
-		
-	
+    GENERATED_BODY()
+public:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FFalconEverythingState State;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FFalconStateSpawnedActor OnActorSpawned;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FFalconStateSpawnedActor OnCollectibleSpawned;
+    
+    UPROPERTY(BlueprintAssignable, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FStateChangeSignature OnEnterStateDelegate;
+    
+    UPROPERTY(BlueprintAssignable, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FStateExitSignature OnExitStateDelegate;
+    
+    UPROPERTY(BlueprintAssignable, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FFalconProjectileSpawned OnProjectileSpawned;
+    
+    UFalconEnemyStateComponent();
+    UFUNCTION(BlueprintCallable)
+    bool WillSpawnCollectibleOfType(UClass* Class);
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    FName GetStateName();
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_UpdateWanderParams(float Delay, float OuterRadius, float TurnRate);
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_SetWaypoints(ATargetPoint* Points);
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_SetTarget(AActor* Actor);
+    
+    UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
+    void BP_OnExitState(UFalconEnemyStateComponent* NextState);
+    
+    UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
+    void BP_OnEnterState();
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_AddActorToWatchListByIndex(int32 Index, AActor* Actor);
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_AddActorToWatchList(FName NextStateName, AActor* Actor);
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool AllLootCollected();
+    
+    
+    // Fix for true pure virtual functions not being implemented
 };
+

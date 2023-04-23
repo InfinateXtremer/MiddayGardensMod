@@ -1,0 +1,14 @@
+/NOLOGO
+/errorReport:prompt
+/MACHINE:x64
+/SUBSYSTEM:WINDOWS
+/DEF
+/NAME:"UE4Editor-HTML5Networking.dll"
+/IGNORE:4221
+/NODEFAULTLIB
+"D:\Program Files\Epic Games\UE_4.19\Engine\Intermediate\Build\Win64\UE4Editor\Development\Engine\SharedPCH.Engine.h.obj"
+"G:\Projects-Github\MainProjects\Midday\Plugins\EnginePlugins\Experimental\HTML5Networking\Intermediate\Build\Win64\UE4Editor\Development\HTML5Networking\Module.HTML5Networking.cpp.obj"
+"G:\Projects-Github\MainProjects\Midday\Plugins\EnginePlugins\Experimental\HTML5Networking\Intermediate\Build\Win64\UE4Editor\Development\HTML5Networking\Module.HTML5Networking.gen.cpp.obj"
+"D:\Program Files\Epic Games\UE_4.19\Engine\Intermediate\Build\Win64\UE4Editor\Development\HTML5Networking\PCLaunch.rc.res"
+"D:\Program Files\Epic Games\UE_4.19\Engine\Intermediate\Build\Win64\UE4Editor\Development\ModuleVersionResource.rc.inl.res"
+/OUT:"G:\Projects-Github\MainProjects\Midday\Plugins\EnginePlugins\Experimental\HTML5Networking\Intermediate\Build\Win64\UE4Editor\Development\UE4Editor-HTML5Networking.lib"

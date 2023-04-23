@@ -1,59 +1,58 @@
-	
 #include "FalconGameInstance.h"
 
-void UFalconGameInstance::DetectPrimaryController()
-{
+class APlayerController;
+
+void UFalconGameInstance::ShowExternalLoginUI() {
 }
 
-bool UFalconGameInstance::GameSavingEnabled()
-{
-	return false;
+void UFalconGameInstance::SetUpdateMouseCursorInCutscene(bool Value) {
 }
 
-int32 UFalconGameInstance::GetMaximumNumberOfControllers()
-{
-	return int32();
+void UFalconGameInstance::SetBypassSettingInputModeForCutsceneMouseCursor(bool DoBypass) {
 }
 
-UObject * UFalconGameInstance::GetPrimaryController()
-{
-	return nullptr;
+void UFalconGameInstance::QuestionScreenOptionSelected_Implementation(int32 selectedIndex) {
 }
 
-void UFalconGameInstance::HandleGameStateChanged(TEnumAsByte<EFalconGameState> aNewState, TEnumAsByte<EFalconGameState> aOldState)
-{
+bool UFalconGameInstance::PrimaryControllerDetected() {
+    return false;
 }
 
-void UFalconGameInstance::HandleGameStateChangedForCutscenes(TEnumAsByte<EFalconGameState> aNewState, TEnumAsByte<EFalconGameState> aOldState)
-{
+//void UFalconGameInstance::OnInputSourceChanged(EInputSource NewInputSource) {
+//}
+
+void UFalconGameInstance::OnHideMouseCursorTimer() {
 }
 
-void UFalconGameInstance::HandleLevelStreamingComplete()
-{
+bool UFalconGameInstance::IsReady() {
+    return false;
 }
 
-bool UFalconGameInstance::IsReady()
-{
-	return false;
+void UFalconGameInstance::HandleLevelStreamingComplete() {
 }
 
-void UFalconGameInstance::OnHideMouseCursorTimer()
-{
+void UFalconGameInstance::HandleGameStateChangedForCutscenes(EFalconGameState aOldState, EFalconGameState aNewState) {
 }
 
-bool UFalconGameInstance::PrimaryControllerDetected()
-{
-	return false;
+void UFalconGameInstance::HandleGameStateChanged(EFalconGameState aOldState, EFalconGameState aNewState) {
 }
 
-void UFalconGameInstance::SetBypassSettingInputModeForCutsceneMouseCursor(bool DoBypass)
-{
+APlayerController* UFalconGameInstance::GetPrimaryController() {
+    return NULL;
 }
 
-void UFalconGameInstance::ShowExternalLoginUI()
-{
+int32 UFalconGameInstance::GetMaximumNumberOfControllers() {
+    return 0;
 }
 
-void UFalconGameInstance::QuestionScreenOptionSelected(int selectedIndex)
-{
+bool UFalconGameInstance::GameSavingEnabled() {
+    return false;
 }
+
+void UFalconGameInstance::DetectPrimaryController(FOnPrimaryControllerDetected OnPrimaryControllerDetected) {
+}
+
+UFalconGameInstance::UFalconGameInstance() {
+    this->_screenManager = NULL;
+}
+

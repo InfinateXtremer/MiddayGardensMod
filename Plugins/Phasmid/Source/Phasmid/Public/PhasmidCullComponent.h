@@ -1,104 +1,92 @@
-
-
 #pragma once
-
 #include "CoreMinimal.h"
-#include "Components/SceneComponent.h"
+#include "Components/ActorComponent.h"
 #include "PhasmidCullComponent.generated.h"
 
+class AActor;
+class UMeshComponent;
 
-UCLASS( ClassGroup=(Phasmid), meta=(BlueprintSpawnableComponent) )
-class PHASMID_API UPhasmidCullComponent : public USceneComponent
-{
-	GENERATED_BODY()
-
-public:	
-	// Sets default values for this component's properties
-	UPhasmidCullComponent();
-
-	//UFUNCTION(BlueprintCallable)
-	//	static void BindToCull(); //Delegate stuff
-
-	UFUNCTION(BlueprintCallable)
-		static void CheckCull();
-
-	UFUNCTION(BlueprintCallable)
-		static bool GetGameStateCullReady();
-
-	UFUNCTION(BlueprintCallable)
-		static bool GetMeshOffScreen(UObject* MeshComponent);
-
-	UFUNCTION(BlueprintCallable)
-		static bool GetOffScreen();
-
-	UFUNCTION(BlueprintCallable)
-		static bool IsActorCulled();
-
-	UFUNCTION(BlueprintCallable)
-		static bool IsCulled();
-
-	UFUNCTION(BlueprintCallable)
-		static void SetActorEnabled(bool bNewEnabled);
-
-	UFUNCTION(BlueprintCallable)
-		static void SetAutoUpdateCull(bool bNewEnabled);
-
-	UFUNCTION(BlueprintCallable)
-		static void SetCullDistance(float NewCullDistance);
-
-	UFUNCTION(BlueprintCallable)
-		static void SetGameStateCullReady(bool bReady);
-
-	UFUNCTION(BlueprintCallable)
-		static void UnbindFromCull(UObject* EventOwner);
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float CollisionCullDistance;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool bEnableCollisionCulling;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool bStillAutoCullWhenVolumeControlled;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool bAutoCull;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool bUseCamAngle;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float ReducedMoveInterval;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool bIgnoreZDistance;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool bCanActorBeZKilled;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool bCanActorBeDisabledByVolume;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool bCanActorBeDisabled;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float CullCheckTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float CullDistanceSquared;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float CullDistance;
-
-protected:
-	// Called when the game starts
-	virtual void BeginPlay() override;
-
-public:	
-	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
-		
-	
+UCLASS(Blueprintable, ClassGroup=Custom, meta=(BlueprintSpawnableComponent))
+class PHASMID_API UPhasmidCullComponent : public UActorComponent {
+    GENERATED_BODY()
+public:
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FCullEventDelegate, AActor*, Actor, bool, bIsCulled);
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float CullDistance;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float CullDistanceSquared;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float CullCheckTime;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool bCanActorBeDisabled;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool bCanActorBeDisabledByVolume;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool bCanActorBeZKilled;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool bIgnoreZDistance;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float ReducedMoveInterval;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool bUseCamAngle;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool bAutoCull;
+    
+    UPROPERTY(AdvancedDisplay, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool bStillAutoCullWhenVolumeControlled;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 bEnableCollisionCulling: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float CollisionCullDistance;
+    
+    UPhasmidCullComponent();
+    UFUNCTION(BlueprintCallable)
+    void UnbindFromCull(AActor* EventOwner);
+    
+    UFUNCTION(BlueprintCallable)
+    static void SetGameStateCullReady(bool bReady);
+    
+    UFUNCTION(BlueprintCallable)
+    void SetCullDistance(float NewCullDistance);
+    
+    UFUNCTION(BlueprintCallable)
+    void SetAutoUpdateCull(bool bNewEnabled);
+    
+    UFUNCTION(BlueprintCallable)
+    void SetActorEnabled(bool bNewEnabled);
+    
+    UFUNCTION(BlueprintCallable)
+    bool IsCulled();
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool IsActorCulled() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool GetOffScreen() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool GetMeshOffScreen(UMeshComponent* MeshComponent) const;
+    
+    UFUNCTION(BlueprintCallable)
+    static bool GetGameStateCullReady();
+    
+    UFUNCTION(BlueprintCallable)
+    void CheckCull();
+    
+    UFUNCTION(BlueprintCallable)
+    void BindToCull(AActor* EventOwner, const UPhasmidCullComponent::FCullEventDelegate& Event);
+    
 };
+

@@ -1,33 +1,33 @@
-
-
 #pragma once
-
 #include "CoreMinimal.h"
-#include "AbilitySystemTestAttributeSet.h"
+#include "PhasmidAttributeSet.h"
 #include "FalconMovementAttributeSet.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class PHASMID_API UFalconMovementAttributeSet : public UAbilitySystemTestAttributeSet
-{
-	GENERATED_BODY()
-	
+UCLASS(Blueprintable)
+class UFalconMovementAttributeSet : public UPhasmidAttributeSet {
+    GENERATED_BODY()
 public:
-	/** This measures how much damage can be absorbed before dying. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attributes")
-		FGameplayAttributeData GlideDescentMultiplierGlideDescentMultiplier;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attributes")
-		FGameplayAttributeData FlyVerticalComponentMult;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attributes")
-		FGameplayAttributeData JumpGravityFlyUp;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attributes")
-		FGameplayAttributeData RotationInterpSpeed;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attributes")
-		FGameplayAttributeData MaxFlySpeedBoost;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attributes")
-		FGameplayAttributeData UnderwaterPitchRate;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attributes")
-		FGameplayAttributeData UnderwaterYawRate;
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float GlideDescentMultiplier;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float FlyVerticalComponentMult;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float JumpGravityFlyUp;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float RotationInterpSpeed;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MaxFlySpeedBoost;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float UnderwaterPitchRate;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float UnderwaterYawRate;
+    
+    UFalconMovementAttributeSet();
 };
+

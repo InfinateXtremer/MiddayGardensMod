@@ -1,48 +1,44 @@
-
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "InputCoreTypes.h"
-#include "UObject/Object.h"
+#include "Input/Events.h"
 #include "Blueprint/UserWidget.h"
+#include "FalconScreenConfigData.h"
 #include "FalconWidget.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class FALCON_API UFalconWidget : public UUserWidget
-{
-	GENERATED_BODY()
-	
-	
+class UFalconScreenConfigObject;
+
+UCLASS(Abstract, Blueprintable, EditInlineNew)
+class FALCON_API UFalconWidget : public UUserWidget {
+    GENERATED_BODY()
 public:
-
-	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "Game|FalconWidget", meta = (WorldContext = "WorldContextObject"))
-		static void ConfigScreen(UObject* configData);
-
-	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "Game|FalconWidget", meta = (WorldContext = "WorldContextObject"))
-		static void ConfigureScreen(UObject* configData); //Configdata needs to be a struct FalconScreenConfigData
-	
-	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "Game|FalconWidget", meta = (WorldContext = "WorldContextObject"))
-		static void HideScreen(bool immediate);
-
-	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "Game|FalconWidget", meta = (WorldContext = "WorldContextObject"))
-		static void OnKeyDownFromGameInstance(bool Handled, FKeyEvent KeyEvent);
-
-	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "Game|FalconWidget", meta = (WorldContext = "WorldContextObject"))
-		static void OnMouseButtonDownFromGameInstance(bool Handled, FKeyEvent MouseKey);
-
-	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "Game|FalconWidget", meta = (WorldContext = "WorldContextObject"))
-		static void OnMouseButtonUpFromGameInstance(bool Handled, FKeyEvent MouseKey);
-
-	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "Game|FalconWidget", meta = (WorldContext = "WorldContextObject"))
-		static UObject* QueryScreen(UObject* configData); //Both return and configData needs to be as struct
-
-	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "Game|FalconWidget", meta = (WorldContext = "WorldContextObject"))
-		static void ShowScreen(); //Both return and configData needs to be as struct	
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Game|FalconWidget")
-		bool ListenForGameInstanceKeyDown;
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool ListenForGameInstanceKeyDown;
+    
+    UFalconWidget();
+    UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
+    void ShowScreen();
+    
+    UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
+    FFalconScreenConfigData QueryScreen(const FFalconScreenConfigData configData);
+    
+    UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
+    void OnMouseButtonUpFromGameInstance(const FKey& MouseKey, bool& Handled);
+    
+    UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
+    void OnMouseButtonDownFromGameInstance(const FKey& MouseKey, bool& Handled);
+    
+    UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
+    void OnKeyDownFromGameInstance(const FKeyEvent& KeyEvent, bool& Handled);
+    
+    UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
+    void HideScreen(bool immediate);
+    
+    UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
+    void ConfigureScreen(const FFalconScreenConfigData& configData);
+    
+    UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
+    void ConfigScreen(const UFalconScreenConfigObject* configData);
+    
 };
+

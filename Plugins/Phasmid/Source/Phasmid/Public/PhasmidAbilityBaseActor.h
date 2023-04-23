@@ -1,58 +1,65 @@
-
-
 #pragma once
-
 #include "CoreMinimal.h"
+#include "GenericTeamAgentInterface.h"
 #include "GameFramework/Actor.h"
+#include "AbilitySystemInterface.h"
 #include "GameplayTagContainer.h"
-#include "GameplayAbilitySet.h"
+#include "GameplayTagAssetInterface.h"
+#include "GameplayTagContainer.h"
 #include "EPhasmidTeamId.h"
 #include "PhasmidAbilityBaseActor.generated.h"
 
-UCLASS()
-class PHASMID_API APhasmidAbilityBaseActor : public AActor
+class UAbilitySystemComponent;
+class UGameplayAbilitySet;
+
+UCLASS(Blueprintable)
+class PHASMID_API APhasmidAbilityBaseActor : public AActor //, public IGenericTeamAgentInterface, public IAbilitySystemInterface, public IGameplayTagAssetInterface 
 {
-	GENERATED_BODY()
-	
+    GENERATED_BODY()
 
 
-	
-public:	
-
-	APhasmidAbilityBaseActor();
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GameplayTags)
-		FGameplayTagContainer InitialGameplayTags;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GameplayTags)
-		UGameplayAbilitySet* AbilitySet;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GameplayTags)
-		TEnumAsByte<EPhasmidTeamId> TeamId;
-
-	//UFUNCTION(BlueprintCallable)
-	void SetTeamId(EPhasmidTeamId newTeamId);
-
-	//UFUNCTION(BlueprintCallable)
-	void OnRep_TeamId(EPhasmidTeamId oldTeamId);
-
-	UFUNCTION(BlueprintCallable, Category = GameplayTags)
-	void InitializeGameplayTagsFromInstigator(const struct FGameplayTagContainer& TagContainer);
-
-	UFUNCTION(BlueprintCallable, Category = GameplayTags)
-	class UAbilitySystemComponent* GetASC();
-
-	// Sets default values for this actor's properties
-
-
+public:
 protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
-	
-	
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FGameplayTagContainer InitialGameplayTags;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    UGameplayAbilitySet* AbilitySet;
+    
+public:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, ReplicatedUsing=OnRep_TeamId, meta=(AllowPrivateAccess=true))
+    EPhasmidTeamId TeamId;
+    
+    APhasmidAbilityBaseActor();
+    virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+    
+    UFUNCTION(BlueprintCallable)
+    void SetTeamId(EPhasmidTeamId newTeamId);
+    
+    UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+    void OnRep_TeamId(EPhasmidTeamId oldTeamId);
+    
+protected:
+    UFUNCTION(BlueprintCallable)
+    void InitializeGameplayTagsFromInstigator(const FGameplayTagContainer& TagContainer, TArray<FString> Suffixes);
+    
+public:
+    //UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
+    //UAbilitySystemComponent* GetASC() const;
+    
+    
+    //// Fix for true pure virtual functions not being implemented
+    //UFUNCTION(BlueprintCallable)
+    //bool HasMatchingGameplayTag(FGameplayTag TagToCheck); //const override PURE_VIRTUAL(HasMatchingGameplayTag, return false;);
+    //
+    //UFUNCTION(BlueprintCallable)
+    //bool HasAnyMatchingGameplayTags(const FGameplayTagContainer& TagContainer); //const override PURE_VIRTUAL(HasAnyMatchingGameplayTags, return false;);
+    //
+    //UFUNCTION(BlueprintCallable)
+    //bool HasAllMatchingGameplayTags(const FGameplayTagContainer& TagContainer); //const override PURE_VIRTUAL(HasAllMatchingGameplayTags, return false;);
+    //
+    //UFUNCTION(BlueprintCallable)
+    //void GetOwnedGameplayTags(FGameplayTagContainer& TagContainer); //const override PURE_VIRTUAL(GetOwnedGameplayTags,);
+    
 };
+

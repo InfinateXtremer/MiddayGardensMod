@@ -1,37 +1,20 @@
-
-
 #include "PhasmidBeamDamage.h"
+#include "PhasmidAbilitySystemComponent.h"
 
-
-// Sets default values
-APhasmidBeamDamage::APhasmidBeamDamage()
-{
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
-
+bool APhasmidBeamDamage::IsDelayOver() const {
+    return false;
 }
 
-float APhasmidBeamDamage::GetTimeAliveRatio() const
-{
-	return 0.0f;
+float APhasmidBeamDamage::GetTimeAliveRatio() const {
+    return 0.0f;
 }
 
-bool APhasmidBeamDamage::IsDelayOver() const
-{
-	return false;
-}
-
-// Called when the game starts or when spawned
-void APhasmidBeamDamage::BeginPlay()
-{
-	Super::BeginPlay();
-	
-}
-
-// Called every frame
-void APhasmidBeamDamage::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
+APhasmidBeamDamage::APhasmidBeamDamage() {
+    this->TraceRadius = 0.00f;
+    this->bDoAllTracesEveryFrame = false;
+    this->StartDamagingDelay = 0.00f;
+    this->TraceChannel = TraceTypeQuery1;
+    this->bDebugDraw = false;
+    this->AbilitySystemComponent = CreateDefaultSubobject<UPhasmidAbilitySystemComponent>(TEXT("AbilitySystem"));
 }
 

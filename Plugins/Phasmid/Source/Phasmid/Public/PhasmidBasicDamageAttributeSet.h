@@ -1,27 +1,23 @@
-
-
 #pragma once
-
 #include "CoreMinimal.h"
-#include "AbilitySystemTestAttributeSet.h"
+#include "PhasmidAttributeSet.h"
 #include "PhasmidBasicDamageAttributeSet.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class PHASMID_API UPhasmidBasicDamageAttributeSet : public UAbilitySystemTestAttributeSet
-{
-	GENERATED_BODY()
-	
+UCLASS(Blueprintable)
+class UPhasmidBasicDamageAttributeSet : public UPhasmidAttributeSet {
+    GENERATED_BODY()
 public:
-	/** This measures how much damage can be absorbed before dying. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attributes")
-		float DamageRepeatInterval;
-		
-	//This is probably not how you do this
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attributes")
-		float CritMultiplier_0;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attributes")
-		float DamageBase;
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated, meta=(AllowPrivateAccess=true))
+    float DamageBase;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated, meta=(AllowPrivateAccess=true))
+    float CritMultiplier;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated, meta=(AllowPrivateAccess=true))
+    float DamageRepeatInterval;
+    
+    UPhasmidBasicDamageAttributeSet();
+    virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+    
 };
+

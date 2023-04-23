@@ -1,75 +1,103 @@
-
-
 #pragma once
-
 #include "CoreMinimal.h"
-#include "FalconGameState.h"
-#include "Blueprint/UserWidget.h"
-#include "Engine/DataTable.h"
+//CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=EInputSource -FallbackName=EInputSource
 #include "Engine/GameInstance.h"
+#include "EFalconGameState.h"
+#include "FalconGameInstanceInterface.h"
+#include "OnPrimaryControllerDetectedDelegate.h"
+#include "PurchaseOption.h"
+#include "QuestionScreenCallbackInterface.h"
 #include "FalconGameInstance.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class FALCON_API UFalconGameInstance : public UGameInstance
-{
-	GENERATED_BODY()
+class AFalconScreenManager;
+class APlayerController;
+class UDataTable;
 
+UCLASS(Blueprintable, NonTransient)
+class UFalconGameInstance : public UGameInstance, public IFalconGameInstanceInterface, public IQuestionScreenCallbackInterface {
+    GENERATED_BODY()
 public:
-	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "Game|FalconGameInstance", meta = (WorldContext = "WorldContextObject"))
-	static void DetectPrimaryController();
-
-	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "Game|FalconGameInstance", meta = (WorldContext = "WorldContextObject"))
-	static bool GameSavingEnabled();
-
-	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "Game|FalconGameInstance", meta = (WorldContext = "WorldContextObject"))
-	static int32 GetMaximumNumberOfControllers();
-
-	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "Game|FalconGameInstance", meta = (WorldContext = "WorldContextObject"))
-	static UObject* GetPrimaryController();
-
-	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "Game|FalconGameInstance", meta = (WorldContext = "WorldContextObject"))
-	static void HandleGameStateChanged(TEnumAsByte<EFalconGameState> aNewState, TEnumAsByte<EFalconGameState> aOldState); //aOldState is probably a return value
-
-	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "Game|FalconGameInstance", meta = (WorldContext = "WorldContextObject"))
-	static void HandleGameStateChangedForCutscenes(TEnumAsByte<EFalconGameState> aNewState, TEnumAsByte<EFalconGameState> aOldState); //aOldState is probably a return value
-
-	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "Game|FalconGameInstance", meta = (WorldContext = "WorldContextObject"))
-	static void HandleLevelStreamingComplete();
-	
-	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "Game|FalconGameInstance", meta = (WorldContext = "WorldContextObject"))
-	static bool IsReady();
-
-	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "Game|FalconGameInstance", meta = (WorldContext = "WorldContextObject"))
-	static void OnHideMouseCursorTimer();
-
-	//UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "Game|FalconGameInstance", meta = (WorldContext = "WorldContextObject"))
-	//static void OnInputSourceChanged(TEnumAsByte<EInputSource> NewInputSource); //Missing EInputSource
-
-	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "Game|FalconGameInstance", meta = (WorldContext = "WorldContextObject"))
-	static bool PrimaryControllerDetected();
-
-	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "Game|FalconGameInstance", meta = (WorldContext = "WorldContextObject"))
-	static void QuestionScreenOptionSelected(int selectedIndex);
-
-	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "Game|FalconGameInstance", meta = (WorldContext = "WorldContextObject"))
-	static void SetBypassSettingInputModeForCutsceneMouseCursor(bool DoBypass);
-
-	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "Game|FalconGameInstance", meta = (WorldContext = "WorldContextObject"))
-	static void ShowExternalLoginUI();
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Game|FalconGameInstance")
-	FString MainMenuMap;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Game|FalconGameInstance")
-	FString WelcomeScreenMap;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Game|FalconGameInstance")
-	UObject* _screenManager;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Game|FalconGameInstance")
-	TSoftObjectPtr<UDataTable> _widgetTable;
-	
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TSoftObjectPtr<UDataTable> _widgetTable;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<FPurchaseOption> PurchasedOptions;
+    
+private:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    AFalconScreenManager* _screenManager;
+    
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FString WelcomeScreenMap;
+    
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FString MainMenuMap;
+    
+public:
+    UFalconGameInstance();
+    UFUNCTION(BlueprintCallable)
+    void ShowExternalLoginUI();
+    
+    UFUNCTION(BlueprintCallable)
+    void SetUpdateMouseCursorInCutscene(bool Value);
+    
+    UFUNCTION(BlueprintCallable)
+    void SetBypassSettingInputModeForCutsceneMouseCursor(bool DoBypass);
+    
+    UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+    void QuestionScreenOptionSelected(int32 selectedIndex);
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool PrimaryControllerDetected();
+    
+    //UFUNCTION(BlueprintCallable)
+    //void OnInputSourceChanged(EInputSource NewInputSource);
+    
+    UFUNCTION(BlueprintCallable)
+    void OnHideMouseCursorTimer();
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool IsReady();
+    
+private:
+    UFUNCTION(BlueprintCallable)
+    void HandleLevelStreamingComplete();
+    
+    UFUNCTION(BlueprintCallable)
+    void HandleGameStateChangedForCutscenes(EFalconGameState aOldState, EFalconGameState aNewState);
+    
+    UFUNCTION(BlueprintCallable)
+    void HandleGameStateChanged(EFalconGameState aOldState, EFalconGameState aNewState);
+    
+public:
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    APlayerController* GetPrimaryController();
+    
+    UFUNCTION(BlueprintCallable)
+    static int32 GetMaximumNumberOfControllers();
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool GameSavingEnabled();
+    
+    UFUNCTION(BlueprintCallable)
+    void DetectPrimaryController(FOnPrimaryControllerDetected OnPrimaryControllerDetected);
+    
+    
+    // Fix for true pure virtual functions not being implemented
+    UFUNCTION(BlueprintCallable)
+    void GetUserProfileName(FString& ProfileName) override PURE_VIRTUAL(GetUserProfileName,);
+    
+    UFUNCTION(BlueprintCallable)
+    bool GetSkipFrontEnd() override PURE_VIRTUAL(GetSkipFrontEnd, return false;);
+    
+    UFUNCTION(BlueprintCallable)
+    AFalconScreenManager* GetFalconScreenManager() override PURE_VIRTUAL(GetFalconScreenManager, return NULL;);
+    
+    UFUNCTION(BlueprintCallable)
+    bool GetDemoMode() override PURE_VIRTUAL(GetDemoMode, return false;);
+    
+    UFUNCTION(BlueprintCallable)
+    void closeProfileChangedDialog() override PURE_VIRTUAL(closeProfileChangedDialog,);
+    
 };
+

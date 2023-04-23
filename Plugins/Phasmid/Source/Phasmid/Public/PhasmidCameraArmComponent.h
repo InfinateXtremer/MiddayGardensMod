@@ -1,36 +1,33 @@
-
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "PhasmidCameraArmComponent.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class PHASMID_API UPhasmidCameraArmComponent : public USpringArmComponent
-{
-	GENERATED_BODY()
-	
+UCLASS(Blueprintable, ClassGroup=Custom, meta=(BlueprintSpawnableComponent))
+class UPhasmidCameraArmComponent : public USpringArmComponent {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float MinTimeScale;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float OuterProbeSize;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float MaxArmAngularSpeed;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float ArmAngularDecel;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float MaxPitch;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool bUsePitchOffset;
-
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint8 bUsePitchOffset: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MaxPitch;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float ArmAngularAccel;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float ArmAngularDecel;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MaxArmAngularSpeed;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float OuterProbeSize;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MinTimeScale;
+    
+    UPhasmidCameraArmComponent();
 };
+

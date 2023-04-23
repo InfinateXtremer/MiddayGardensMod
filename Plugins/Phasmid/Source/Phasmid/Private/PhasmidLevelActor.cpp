@@ -1,35 +1,27 @@
-
-
 #include "PhasmidLevelActor.h"
+#include "PhasmidAbilitySystemComponent.h"
 
+class AActor;
+class UPrimitiveComponent;
 
-// Sets default values
-APhasmidLevelActor::APhasmidLevelActor()
-{
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
-
+void APhasmidLevelActor::TriggerOverlapAbility(AActor* OtherActor, FGameplayTag TriggerTag) {
 }
 
-void APhasmidLevelActor::AbilityEndOverlap(FGameplayTag TriggerTag, UActorComponent * OtherComp, AActor * OtherActor, UActorComponent * OverlappedComponent)
-{
+void APhasmidLevelActor::Client_OnShieldBreak_Implementation(const FGameplayEventData Payload) {
 }
 
-void APhasmidLevelActor::BP_HandleDamage(AActor * DamagingActor, UActorComponent * HitComponent, FGameplayTag DamageTags, float Magnitude)
-{
+void APhasmidLevelActor::Client_OnDeath_Implementation(const FGameplayEventData Payload) {
 }
 
-// Called when the game starts or when spawned
-void APhasmidLevelActor::BeginPlay()
-{
-	Super::BeginPlay();
-	
+void APhasmidLevelActor::Client_OnDamage_Implementation(const FGameplayEventData Payload) {
 }
 
-// Called every frame
-void APhasmidLevelActor::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
 
+void APhasmidLevelActor::AbilityEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FGameplayTag TriggerTag) {
+}
+
+APhasmidLevelActor::APhasmidLevelActor() {
+    this->AbilitySystem = CreateDefaultSubobject<UPhasmidAbilitySystemComponent>(TEXT("AbilitySystem"));
+    this->bDead = false;
 }
 

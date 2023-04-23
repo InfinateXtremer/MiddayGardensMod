@@ -1,67 +1,86 @@
-
-
 #pragma once
-
 #include "CoreMinimal.h"
-#include "AbilitySystemTestAttributeSet.h"
+#include "PhasmidAttributeSet.h"
 #include "PhasmidMovementAttributeSet.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class PHASMID_API UPhasmidMovementAttributeSet : public UAbilitySystemTestAttributeSet
-{
-	GENERATED_BODY()
-	
+UCLASS(Blueprintable)
+class PHASMID_API UPhasmidMovementAttributeSet : public UPhasmidAttributeSet {
+    GENERATED_BODY()
 public:
-	/** This measures how much damage can be absorbed before dying. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attributes")
-		FGameplayAttributeData GravityScale;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attributes")
-		FGameplayAttributeData MaxAcceleration;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attributes")
-		FGameplayAttributeData CrouchedHalfHeight;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attributes")
-		FGameplayAttributeData MaxWalkSpeed;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attributes")
-		FGameplayAttributeData MaxWalkSpeedCrouched;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attributes")
-		FGameplayAttributeData BrakingDecelerationWalking;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attributes")
-		FGameplayAttributeData JumpZVelocity;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attributes")
-		FGameplayAttributeData SecondJumpZVelocity;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attributes")
-		FGameplayAttributeData BrakingDecelerationFalling;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attributes")
-		FGameplayAttributeData AirControl;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attributes")
-		FGameplayAttributeData AirControlBoostThreshold;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attributes")
-		FGameplayAttributeData GroundFriction;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attributes")
-		FGameplayAttributeData FallingLateralFriction;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attributes")
-		FGameplayAttributeData JumpOffJumpZFactor;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attributes")
-		FGameplayAttributeData MaxFlySpeed;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attributes")
-		FGameplayAttributeData BrakingDecelerationFlying;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attributes")
-		FGameplayAttributeData NavAgentRadius;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attributes")
-		FGameplayAttributeData NavAgentHeight;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attributes")
-		FGameplayAttributeData MaxStepHeight;	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attributes")
-		FGameplayAttributeData WalkableFloorAngle;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attributes")
-		FGameplayAttributeData RotationRateYaw;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attributes")
-		FGameplayAttributeData FlightYawRate;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attributes")
-		FGameplayAttributeData FlightPitchRate;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attributes")
-		FGameplayAttributeData FlightMaxPitchAngle;	
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated, meta=(AllowPrivateAccess=true))
+    float GravityScale;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated, meta=(AllowPrivateAccess=true))
+    float MaxAcceleration;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated, meta=(AllowPrivateAccess=true))
+    float CrouchedHalfHeight;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated, meta=(AllowPrivateAccess=true))
+    float MaxWalkSpeed;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated, meta=(AllowPrivateAccess=true))
+    float MaxWalkSpeedCrouched;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated, meta=(AllowPrivateAccess=true))
+    float BrakingDecelerationWalking;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated, meta=(AllowPrivateAccess=true))
+    float JumpZVelocity;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated, meta=(AllowPrivateAccess=true))
+    float SecondJumpZVelocity;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated, meta=(AllowPrivateAccess=true))
+    float BrakingDecelerationFalling;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated, meta=(AllowPrivateAccess=true))
+    float AirControl;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated, meta=(AllowPrivateAccess=true))
+    float AirControlBoostThreshold;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated, meta=(AllowPrivateAccess=true))
+    float GroundFriction;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated, meta=(AllowPrivateAccess=true))
+    float FallingLateralFriction;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated, meta=(AllowPrivateAccess=true))
+    float JumpOffJumpZFactor;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated, meta=(AllowPrivateAccess=true))
+    float MaxFlySpeed;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated, meta=(AllowPrivateAccess=true))
+    float BrakingDecelerationFlying;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated, meta=(AllowPrivateAccess=true))
+    float NavAgentRadius;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated, meta=(AllowPrivateAccess=true))
+    float NavAgentHeight;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated, meta=(AllowPrivateAccess=true))
+    float MaxStepHeight;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated, meta=(AllowPrivateAccess=true))
+    float WalkableFloorAngle;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated, meta=(AllowPrivateAccess=true))
+    float RotationRateYaw;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated, meta=(AllowPrivateAccess=true))
+    float FlightYawRate;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated, meta=(AllowPrivateAccess=true))
+    float FlightPitchRate;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated, meta=(AllowPrivateAccess=true))
+    float FlightMaxPitchAngle;
+    
+    UPhasmidMovementAttributeSet();
+    virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+    
 };
+

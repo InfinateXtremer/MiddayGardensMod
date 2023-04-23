@@ -1,44 +1,24 @@
-
-
 #include "PhasmidAbilityBaseActor.h"
+#include "Net/UnrealNetwork.h"
 
-
-// Sets default values
-APhasmidAbilityBaseActor::APhasmidAbilityBaseActor()
-{
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
-
+void APhasmidAbilityBaseActor::SetTeamId(EPhasmidTeamId newTeamId) {
 }
 
-void APhasmidAbilityBaseActor::SetTeamId(EPhasmidTeamId newTeamId)
-{
+void APhasmidAbilityBaseActor::OnRep_TeamId_Implementation(EPhasmidTeamId oldTeamId) {
 }
 
-void APhasmidAbilityBaseActor::OnRep_TeamId(EPhasmidTeamId oldTeamId)
-{
+void APhasmidAbilityBaseActor::InitializeGameplayTagsFromInstigator(const FGameplayTagContainer& TagContainer, TArray<FString> Suffixes) {
 }
 
-void APhasmidAbilityBaseActor::InitializeGameplayTagsFromInstigator(const FGameplayTagContainer & TagContainer)
-{
+
+void APhasmidAbilityBaseActor::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const {
+    Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+    
+    DOREPLIFETIME(APhasmidAbilityBaseActor, TeamId);
 }
 
-UAbilitySystemComponent * APhasmidAbilityBaseActor::GetASC()
-{
-	return nullptr;
-}
-
-// Called when the game starts or when spawned
-void APhasmidAbilityBaseActor::BeginPlay()
-{
-	Super::BeginPlay();
-	
-}
-
-// Called every frame
-void APhasmidAbilityBaseActor::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
+APhasmidAbilityBaseActor::APhasmidAbilityBaseActor() {
+    this->AbilitySet = NULL;
+    this->TeamId = EPhasmidTeamId::Neutral;
 }
 

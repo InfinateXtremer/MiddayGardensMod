@@ -1,137 +1,129 @@
-
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "Engine/DataTable.h"
-#include "Engine/UserDefinedStruct.h"
 #include "SpyroCharacterInitialData.generated.h"
 
-/**
- * 
- */
- 
 USTRUCT(BlueprintType)
-struct FSpyroCharacterInitialData : public FTableRowBase
-{
-	GENERATED_USTRUCT_BODY()
-
+struct FSpyroCharacterInitialData : public FTableRowBase {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float FlightMaxPitchAngle;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float FlightPitchRate;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float FlightYawRate;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float UnderwaterYawRate;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float UnderwaterPitchRate;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float ConformToGroundInterpSpeed;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float CamRotationMultFreeLook;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float CamRotationMultRightStick;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float SideRollControlRotationMult;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float GroundMovemementControlRotationMult;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float FlyVerticalComponentMult;
-
-		UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float RotationInterpSpeed;
-
-		UPROPERTY(EditAnywhere, BlueprintReadWrite)
-			float GlideDescentMultiplier;
-
-		UPROPERTY(EditAnywhere, BlueprintReadWrite)
-			float FootstepMaxRange;
-
-		UPROPERTY(EditAnywhere, BlueprintReadWrite)
-			float FootstepLoudness;
-
-		UPROPERTY(EditAnywhere, BlueprintReadWrite)
-			float NavAgentHeight;
-
-		UPROPERTY(EditAnywhere, BlueprintReadWrite)
-			float NavAgentRadius;
-
-		UPROPERTY(EditAnywhere, BlueprintReadWrite)
-			float WalkableFloorAngle;
-
-		UPROPERTY(EditAnywhere, BlueprintReadWrite)
-			float MaxStepHeight;
-
-		UPROPERTY(EditAnywhere, BlueprintReadWrite)
-			float RotationRateYaw;
-
-		UPROPERTY(EditAnywhere, BlueprintReadWrite)
-			float BrakingDecelerationFlying;
-
-		UPROPERTY(EditAnywhere, BlueprintReadWrite)
-			float MaxFlySpeed;
-
-		UPROPERTY(EditAnywhere, BlueprintReadWrite)
-			float JumpOffJumpZFactor;
-
-		UPROPERTY(EditAnywhere, BlueprintReadWrite)
-			float FallingLateralFriction;
-
-		UPROPERTY(EditAnywhere, BlueprintReadWrite)
-			float GroundFriction;
-
-		UPROPERTY(EditAnywhere, BlueprintReadWrite)
-			float AirControlBoostThreshold;
-
-		UPROPERTY(EditAnywhere, BlueprintReadWrite)
-			float AirControl;
-
-		UPROPERTY(EditAnywhere, BlueprintReadWrite)
-			float BrakingDecelerationFalling;
-
-		UPROPERTY(EditAnywhere, BlueprintReadWrite)
-			float SecondJumpZVelocity;
-
-		UPROPERTY(EditAnywhere, BlueprintReadWrite)
-			float JumpGravityFlyUp;
-
-		UPROPERTY(EditAnywhere, BlueprintReadWrite)
-			float JumpMaxHoldTime;
-
-		UPROPERTY(EditAnywhere, BlueprintReadWrite)
-			float JumpZVelocity;
-
-		UPROPERTY(EditAnywhere, BlueprintReadWrite)
-			float BrakingDecelerationWalking;
-
-		UPROPERTY(EditAnywhere, BlueprintReadWrite)
-			float MaxWalkSpeedCrouched;
-
-		UPROPERTY(EditAnywhere, BlueprintReadWrite)
-			float MaxWalkSpeed;
-
-		UPROPERTY(EditAnywhere, BlueprintReadWrite)
-			float CrouchedHalfHeight;
-
-		UPROPERTY(EditAnywhere, BlueprintReadWrite)
-			float MaxAcceleration;
-
-		UPROPERTY(EditAnywhere, BlueprintReadWrite)
-			float GravityScale;
-
-		UPROPERTY(EditAnywhere, BlueprintReadWrite)
-			float HealthMax;
-
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float HealthMax;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float GravityScale;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MaxAcceleration;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float CrouchedHalfHeight;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MaxWalkSpeed;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MaxWalkSpeedCrouched;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float BrakingDecelerationWalking;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float JumpZVelocity;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float JumpMaxHoldTime;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float JumpGravityFlyUp;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float SecondJumpZVelocity;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float BrakingDecelerationFalling;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float AirControl;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float AirControlBoostThreshold;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float GroundFriction;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float FallingLateralFriction;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float JumpOffJumpZFactor;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MaxFlySpeed;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float BrakingDecelerationFlying;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float RotationRateYaw;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float MaxStepHeight;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float WalkableFloorAngle;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float NavAgentRadius;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float NavAgentHeight;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float FootstepLoudness;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float FootstepMaxRange;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float GlideDescentMultiplier;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float RotationInterpSpeed;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float FlyVerticalComponentMult;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float GroundMovemementControlRotationMult;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float SideRollControlRotationMult;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float CamRotationMultRightStick;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float CamRotationMultFreeLook;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float ConformToGroundInterpSpeed;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float UnderwaterPitchRate;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float UnderwaterYawRate;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float FlightYawRate;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float FlightPitchRate;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float FlightMaxPitchAngle;
+    
+    PHASMID_API FSpyroCharacterInitialData();
 };
+
