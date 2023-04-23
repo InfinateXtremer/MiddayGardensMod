@@ -6,8 +6,8 @@
 /NAME:"UE4Editor-CPS1194_SparxNew.dll"
 /IGNORE:4221
 /NODEFAULTLIB
-"D:\Program Files\Epic Games\UE_4.19\Engine\Intermediate\Build\Win64\UE4Editor\Development\Engine\SharedPCH.Engine.h.obj"
-"G:\Projects-Github\MainProjects\Midday\Plugins\Characters\Player\CPS1194_SparxNew\Intermediate\Build\Win64\UE4Editor\Development\CPS1194_SparxNew\Module.CPS1194_SparxNew.cpp.obj"
-"D:\Program Files\Epic Games\UE_4.19\Engine\Intermediate\Build\Win64\UE4Editor\Development\CPS1194_SparxNew\PCLaunch.rc.res"
-"D:\Program Files\Epic Games\UE_4.19\Engine\Intermediate\Build\Win64\UE4Editor\Development\ModuleVersionResource.rc.inl.res"
-/OUT:"G:\Projects-Github\MainProjects\Midday\Plugins\Characters\Player\CPS1194_SparxNew\Intermediate\Build\Win64\UE4Editor\Development\UE4Editor-CPS1194_SparxNew.lib"
+"D:\EpicLibrary\UE_4.19\Engine\Intermediate\Build\Win64\UE4Editor\Development\Engine\SharedPCH.Engine.h.obj"
+"D:\MiddayGardensMod\Plugins\Characters\Player\CPS1194_SparxNew\Intermediate\Build\Win64\UE4Editor\Development\CPS1194_SparxNew\Module.CPS1194_SparxNew.cpp.obj"
+"D:\EpicLibrary\UE_4.19\Engine\Intermediate\Build\Win64\UE4Editor\Development\CPS1194_SparxNew\PCLaunch.rc.res"
+"D:\EpicLibrary\UE_4.19\Engine\Intermediate\Build\Win64\UE4Editor\Development\ModuleVersionResource.rc.inl.res"
+/OUT:"D:\MiddayGardensMod\Plugins\Characters\Player\CPS1194_SparxNew\Intermediate\Build\Win64\UE4Editor\Development\UE4Editor-CPS1194_SparxNew.lib"
