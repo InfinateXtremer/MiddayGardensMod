@@ -1,4 +1,4 @@
-#Level hack for Midday Gardens from Spyro Reignited Trilogy.
+# Level hack for Midday Gardens from Spyro Reignited Trilogy.
 ---
 Source files are provided for the Mod the Dragon community to understand how "level hacks" are created.
 Explanation:
